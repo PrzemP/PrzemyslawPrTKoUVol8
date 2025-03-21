@@ -9,6 +9,7 @@
 
 #define ENVQUERYTEST_DISTANCE_NAN_DETECTION 1
 
+// Code review: those functions are never used, should be removed
 namespace 
 {
 	FORCEINLINE float CalcDistance3D(const FVector& PosA, const FVector& PosB)
@@ -83,23 +84,31 @@ void UEnvQueryTest_EqsSelect::RunTest(FEnvQueryInstance& QueryInstance) const
 				It.ForceItemState(EEnvItemStatus::Failed);
 			else
 			{
+				// Code review: bind data should be put outside for loop
 				DefaultValue.BindData(QueryOwner, QueryInstance.QueryID);
 				ReferencePoint.BindData(QueryOwner, QueryInstance.QueryID);
 				FloatValueMin.BindData(QueryOwner, QueryInstance.QueryID);
 				FloatValueMax.BindData(QueryOwner, QueryInstance.QueryID);
-		
+
+				// Code review: other methods similar to map.Find also exist for different use case lie map.FindRef
+				
 				//get map & value. IF value is null then set it to default.
 				//UE SHOULD BY DEFAULT IMPLEMENT -=SAFE=- FIND(key, default) and NOT give nullptr OR lat least WARN about it and NOT in their source code but in function description.
 				//the way it is made now should be considered VIOLATION of good practices. 
 				const auto map = eqs_selectActor->FloatMap;
-		
+				
+				// Code review: Value is confusing as we use Key here, naming should be more descriptive
 				auto foundValue = map.Find(Value);
+				// Code review: could be outside for loop
 				auto value = DefaultValue.GetValue();
+				
 				if(foundValue!=nullptr)
 					value = *foundValue;
 
 				//substract ref value
 				value -= ReferencePoint.GetValue();
+				
+				// Code review: use FMath::Abs
 				if(value<0)
 					value*=-1;
 		
@@ -117,14 +126,17 @@ void UEnvQueryTest_EqsSelect::RunTest(FEnvQueryInstance& QueryInstance) const
 
 FText UEnvQueryTest_EqsSelect::GetDescriptionTitle() const
 {
+	// Code review: naming should be fixed instead of 1 2 and 3, 
 	auto Fstring1 = Value.ToString();
 	auto Fstring2 = DefaultValue.ToString();
 	auto Fstring3 = ReferencePoint.ToString();
 
+	// Code review: extra declarations are not necessary
+
 	auto Tchar1 = *Fstring1;
 	auto Tchar2 = *Fstring2;
 	auto Tchar3 = *Fstring3;
-	
+	//Code review: typo in defualt
 	return FText::FromString(FString::Printf(TEXT("Compare key: %s with defualt value of %s : to %s"), 
 		Tchar1,
 		Tchar2,
