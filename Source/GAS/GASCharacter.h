@@ -59,6 +59,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "GAS")
 	TArray<TSubclassOf<class UGASGameplayAbility>> DefaultAbilities;
 
+	// TKOU: team implementation
+	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "TEAM")
+	int TeamID = 0;
 protected:
 
 	/** Resets HMD orientation in VR. */
