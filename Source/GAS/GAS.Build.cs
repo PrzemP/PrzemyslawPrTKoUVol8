@@ -8,7 +8,7 @@ public class GAS : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay","XRBase" });
 		// TKOU:task 1 added GameplayTasks module
 		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayAbilities", "GameplayTags","GameplayTasks" });
 	}
